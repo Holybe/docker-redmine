@@ -6,11 +6,10 @@ services:
     ports:
       - 8080:3000
     volumes:
-      - ./data/plugins:/usr/src/redmine/plugins
-      - ./data/themes:/usr/src/redmine/public/themes
+      - vol_redmine:/usr/src/redmine/files
     environment:
       REDMINE_DB_MYSQL: redmine-db
-      REDMINE_DB_PASSWORD: redmine
+      REDMINE_DB_PASSWORD: redminedb
     depends_on:
       - redmine-db
     restart: always
@@ -21,9 +20,13 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: redmine
+      MYSQL_ROOT_PASSWORD: redminedb
       MYSQL_DATABASE: redmine
     volumes:
-      - ./data/db:/var/lib/mysql
+      - vol_redmine_db:/var/lib/mysql
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     restart: always
+   
+volumes:
+  vol_redmine:
+  vol_redmine_db:
